@@ -5,15 +5,26 @@ import { AnimatedText } from "./components/animatedText";
 import logo from "./assets/images/logoquiqup.png";
 import { UseModal } from "./custom/hooks/useModal";
 import { LoginModal } from "./components/modals/loginModal";
+import { useGlobalContext } from "./context/store";
+
+const Icon = {
+  initial: {
+    y: "-100vh",
+  },
+  animate: { y: 0, transition: { duration: 2, type: "spring", stiffness: 50 } },
+};
 
 export default function Home() {
   const { handleModalStateChange, modalState } = UseModal();
+  useGlobalContext();
+
+  
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-primary relative">
       <motion.div
-        initial={{ y: "-100vh" }}
-        animate={{ y: 0 }}
-        transition={{ duration: 2, type: "spring", stiffness: 50 }}
+        variants={Icon}
+        animate="animate"
+        initial="initial"
         className="my-8"
       >
         <Image src={logo} width={75} height={75} alt={""} />
@@ -33,18 +44,25 @@ export default function Home() {
           <AnimatedText text="GAME-OF-MATCH" />
         </motion.div>
       </div>
-      <div className="mt-8 mb-4 text-white font-light tracking-wide">Start playing!</div>
+      <div className="mt-8 mb-4 text-white font-light tracking-wide">
+        Start playing!
+      </div>
       <motion.div
         onClick={handleModalStateChange}
         whileHover={{
           scale: 1.1,
         }}
-        transition={{duration: 0.3}}
+        transition={{ duration: 0.3 }}
         className="cursor-pointer px-6 tracking-wider py-2 bg-secondary text-yellowish text-sm font-bold rounded-sm"
       >
         Login
       </motion.div>
-      {modalState && <LoginModal handleModalStateChange={handleModalStateChange} /> }
+      {modalState && (
+        <LoginModal
+          
+          handleModalStateChange={handleModalStateChange}
+        />
+      )}
     </main>
   );
 }

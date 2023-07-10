@@ -3,6 +3,10 @@ import arrowIcon from "../../assets/images/cards.png";
 import backIcon from "../../assets/images/arrow.png";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import { useState } from "react";
+import { useGlobalContext } from "@/app/context/store";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 interface Props {
   handleModalStateChange: any;
@@ -65,6 +69,28 @@ const leftMotion = {
 };
 
 export const LoginModal: React.FC<Props> = ({ handleModalStateChange }) => {
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [userName, setUserName] = useState<string>("");
+  const { setUser } = useGlobalContext();
+  const router = useRouter()
+
+  const handleTextChange = (text: string) => {
+    setUserName(text);
+    if (text?.length < 3) {
+      setErrorMessage("Name should be at least 3 characters");
+    } else {
+      setErrorMessage("");
+    }
+  };
+  const handleLoginAction = () => {
+    if (userName.length < 3) {
+      setErrorMessage("Name should be at least 3 characters");
+    } else {
+      setUser(userName);
+      Cookies.set("loggedInUser", userName);
+      router.push("/home")
+    }
+  };
   return (
     <AnimatePresence mode="wait">
       <motion.div
@@ -77,19 +103,27 @@ export const LoginModal: React.FC<Props> = ({ handleModalStateChange }) => {
           variants={modal}
           className="shadow-md relative bg-primary sm:w-2/5 p-4 rounded-md h-2/5 flex items-center gap-7  justify-center flex-col "
         >
-          <div className="text-yellowish font-medium text-center border-dashed rounded-md border-yellowish border-2 px-4 py-2">
+          <div className="text-yellowish w-full mx-4 md:mx-0 md:w-3/4 font-medium text-center border-dashed rounded-md border-yellowish border-2 px-4 py-2">
             Register your name and start playing!
           </div>
-          <input
-            className="outline-none p-2 px-4 rounded tsukimi font-bold text-primary"
-            type="text"
-            placeholder="Enter you name"
-          />
+          <div className="w-full flex flex-col items-center justify-center gap-2 px-4">
+            <input
+              onChange={e => handleTextChange(e.target.value)}
+              className="outline-none p-2 px-4 rounded tsukimi font-bold text-primary w-full md:w-3/4"
+              type="text"
+              placeholder="Enter you name"
+            />
+            {errorMessage && (
+              <div className="text-red-500 text-sm">{errorMessage}</div>
+            )}
+          </div>
+
           <motion.div
             initial="rest"
             whileHover="hover"
             animate="rest"
             className="cursor-pointer flex flex-row items-center gap-2 "
+            onClick={handleLoginAction}
           >
             <motion.span
               variants={leftMotion}
