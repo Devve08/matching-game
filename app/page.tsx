@@ -41,7 +41,7 @@ export default function Home() {
           }}
           className="text-xl sm:text-3xl font-semibold tsukimi"
         >
-          <AnimatedText text="GAME-OF-MATCH" />
+          <AnimatedText text="MEMORY-GAME" />
         </motion.div>
       </div>
       <div className="mt-8 mb-4 text-white font-light tracking-wide">

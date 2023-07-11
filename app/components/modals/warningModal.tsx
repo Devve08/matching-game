@@ -46,7 +46,7 @@ export const WarningModal: React.FC<Props> = ({
           variants={modal}
           className="shadow-md relative bg-primary sm:w-2/5 p-4 rounded-md h-2/5 flex items-center gap-7  justify-center flex-col "
         >
-          <div className="font-light text-md text-yellowish text-center">
+          <div className="font-bold text-lg text-yellowish text-center">
             Restart game ?
           </div>
           <div className="flex items-center gap-5 w-full mx-auto justify-center mt-10">

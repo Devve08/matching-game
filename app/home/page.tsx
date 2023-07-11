@@ -10,6 +10,7 @@ import { UseModal } from "../custom/hooks/useModal";
 import { WarningModal } from "../components/modals/warningModal";
 import { HomeTitleSection } from "../components/homeTitleSection";
 import { checkMatchedStatus } from "../custom/helpers/functions";
+import { CongratulationsModal } from "../components/modals/conratularionsModal";
 export interface Card {
   src: any;
   matched: boolean;
@@ -228,7 +229,12 @@ const Page: React.FC = () => {
           confirm={resetGameState}
         />
       )}
-      {checkMatchedStatus(gameState?.cards) && <div>Hello</div>}
+      {checkMatchedStatus(gameState?.cards) && (
+        <CongratulationsModal
+          turns={gameState?.turns}
+          handleModalStateChange={resetGameState}
+        />
+      )}
     </div>
   );
 };
