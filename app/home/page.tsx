@@ -6,17 +6,18 @@ import { useRouter } from "next/navigation";
 import { Header } from "../components/header";
 import { cards } from "../custom/images/images";
 import { Card } from "../components/card";
-import { WithAnimation } from "../hoc/withAnimation";
 import { UseModal } from "../custom/hooks/useModal";
 import { WarningModal } from "../components/modals/warningModal";
-interface Card {
+import { HomeTitleSection } from "../components/homeTitleSection";
+import { checkMatchedStatus } from "../custom/helpers/functions";
+export interface Card {
   src: any;
   matched: boolean;
   type: string;
   id: any;
 }
 
-interface GameState {
+export interface GameState {
   cards: Card[];
   turns: number;
   firstCard: Partial<Card>;
@@ -45,9 +46,18 @@ const Page: React.FC = () => {
     if (loggedInUser) {
       setUser(loggedInUser);
     }
+    let storageSession: any = localStorage.getItem("gameState");
+    let oldGameState = JSON.parse(storageSession);
+    setGameState({
+      ...gameState,
+      turns: oldGameState?.turns,
+      cards: oldGameState?.cards,
+      allCardsFlipped: false,
+    });
   }, []);
 
   const startNewGameAction = () => {
+    //check if a game is already being played
     if (gameState.turns > 0) {
       handleModalStateChange();
     } else {
@@ -56,7 +66,6 @@ const Page: React.FC = () => {
   };
 
   const resetGameState = () => {
-    console.log("hello");
     setGameState({
       cards: [],
       turns: 0,
@@ -65,6 +74,7 @@ const Page: React.FC = () => {
       allCardsFlipped: true,
       disableClick: false,
     });
+    localStorage.removeItem("gameState");
     handleModalStateChange();
     prepareCards();
   };
@@ -143,6 +153,14 @@ const Page: React.FC = () => {
           secondCard: {},
           turns: gameState.turns + 1,
         });
+
+        localStorage.setItem(
+          "gameState",
+          JSON.stringify({
+            cards: updateMatchingCards(firstCard),
+            turns: gameState.turns + 1,
+          })
+        );
       } else {
         // disable click action until the 2 unmatched cards flip black
         setGameState({
@@ -160,6 +178,10 @@ const Page: React.FC = () => {
             turns: gameState.turns + 1,
           });
         }, 2000);
+        localStorage.setItem(
+          "gameState",
+          JSON.stringify({ cards: gameState.cards, turns: gameState.turns + 1 })
+        );
       }
     }
   }, [gameState.firstCard, gameState.secondCard]);
@@ -181,23 +203,13 @@ const Page: React.FC = () => {
     );
   };
 
-  console.log(gameState);
   return (
     <div className="min-h-screen w-full bg-gray-200">
       <Header onLogout={handleLogoutAction} username={user} />
-      <div className="p-4 w-full flex flex-col items-center justify-normal">
-        <span className="text-3xl tsukimi font-bold text-primary my-4">
-          {" "}
-          Game Of Match
-        </span>
-        <button
-          onClick={startNewGameAction}
-          className="  text-primary text-sm font-semibold border-2 bg-yellowish border-primary rounded py-1 px-4 font"
-        >
-          New Game
-        </button>
-        <div>Turns: {gameState.turns}</div>
-      </div>
+      <HomeTitleSection
+        gameState={gameState}
+        startNewGameAction={startNewGameAction}
+      />
       <div className="grid grid-cols-2 md:grid-cols-4 m-auto w-full md:w-3/4 p-2 sm:p-10 gap-4">
         {gameState.cards?.length > 0 &&
           gameState.cards.map((card: Card, index: number) => (
@@ -216,6 +228,7 @@ const Page: React.FC = () => {
           confirm={resetGameState}
         />
       )}
+      {checkMatchedStatus(gameState?.cards) && <div>Hello</div>}
     </div>
   );
 };

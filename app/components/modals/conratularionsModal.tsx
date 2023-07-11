@@ -1,10 +1,9 @@
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
 
-
 interface Props {
   handleModalStateChange: any;
-  confirm: any;
+  turns: number;
 }
 
 const backdrop = {
@@ -32,7 +31,7 @@ const modal = {
 
 export const WarningModal: React.FC<Props> = ({
   handleModalStateChange,
-  confirm,
+  turns,
 }) => {
   return (
     <AnimatePresence mode="wait">
@@ -47,7 +46,7 @@ export const WarningModal: React.FC<Props> = ({
           className="shadow-md relative bg-primary sm:w-2/5 p-4 rounded-md h-2/5 flex items-center gap-7  justify-center flex-col "
         >
           <div className="font-light text-md text-yellowish text-center">
-            Restart game ?
+            Congratulations you with {} turns
           </div>
           <div className="flex items-center gap-5 w-full mx-auto justify-center mt-10">
             <motion.button
@@ -56,15 +55,7 @@ export const WarningModal: React.FC<Props> = ({
               transition={{ duration: 0.3 }}
               className="font-semibold text-sm tsukimi bg-secondary w-2/5 py-2 text-white rounded"
             >
-              Continue
-            </motion.button>
-            <motion.button
-              onClick={confirm}
-              whileHover={{ scale: 1.05, originX: 0 }}
-              transition={{ duration: 0.3 }}
-              className="font-semibold text-sm tsukimi bg-secondary w-2/5 py-2 text-white rounded"
-            >
-              Yes
+              Woohoooo !!!
             </motion.button>
           </div>
         </motion.div>
