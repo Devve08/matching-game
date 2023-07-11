@@ -6,6 +6,9 @@ import { useRouter } from "next/navigation";
 import { Header } from "../components/header";
 import { cards } from "../custom/images/images";
 import { Card } from "../components/card";
+import { WithAnimation } from "../hoc/withAnimation";
+import { UseModal } from "../custom/hooks/useModal";
+import { WarningModal } from "../components/modals/warningModal";
 interface Card {
   src: any;
   matched: boolean;
@@ -19,16 +22,19 @@ interface GameState {
   firstCard: Partial<Card>;
   secondCard: Partial<Card>;
   allCardsFlipped: boolean;
+  disableClick: boolean;
 }
 
 const Page: React.FC = () => {
   const { user, setUser } = useGlobalContext();
+  const { modalState, handleModalStateChange } = UseModal();
   const [gameState, setGameState] = useState<GameState>({
     cards: [],
     turns: 0,
     firstCard: {},
     secondCard: {},
-    allCardsFlipped: true
+    allCardsFlipped: true,
+    disableClick: false,
   });
   const router = useRouter();
 
@@ -61,9 +67,12 @@ const Page: React.FC = () => {
       });
     }, 5000);
   };
-
+  console.log(gameState);
   // Handle logic when pressing the back of the card
   const handleCardClickAction = (card: Card) => {
+    if (gameState.disableClick) {
+      return;
+    }
     gameState.firstCard?.id
       ? setGameState({
           ...gameState,
@@ -85,6 +94,7 @@ const Page: React.FC = () => {
         arr.push(c);
       }
     });
+
     return arr;
   };
 
@@ -97,13 +107,28 @@ const Page: React.FC = () => {
         setGameState({
           ...gameState,
           cards: updateMatchingCards(firstCard),
+          firstCard: {},
+          secondCard: {},
+          turns: gameState.turns + 1,
         });
       } else {
+        // disable click action until the 2 unmatched cards flip black
+        setGameState({
+          ...gameState,
+          disableClick: true,
+          turns: gameState.turns + 1,
+        });
+        // reset selected cards after 2 seconds
         setTimeout(() => {
-          setGameState({ ...gameState, firstCard: {}, secondCard: {} });
+          setGameState({
+            ...gameState,
+            firstCard: {},
+            secondCard: {},
+            disableClick: false,
+            turns: gameState.turns + 1,
+          });
         }, 2000);
       }
-      // setGameState({ ...gameState, firstCard: "", secondCard: "" });
     }
   }, [gameState.firstCard, gameState.secondCard]);
 
@@ -124,8 +149,6 @@ const Page: React.FC = () => {
     );
   };
 
-  console.log(gameState);
-
   return (
     <div className="min-h-screen w-full bg-gray-200">
       <Header onLogout={handleLogoutAction} username={user} />
@@ -140,11 +163,13 @@ const Page: React.FC = () => {
         >
           New Game
         </button>
+        <div>Turns: {gameState.turns}</div>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 m-auto w-full md:w-3/4 p-2 sm:p-10 gap-4">
         {gameState.cards?.length > 0 &&
           gameState.cards.map((card: Card, index: number) => (
             <Card
+              index={index}
               handleCardClick={() => handleCardClickAction(card)}
               key={index}
               cardImage={card?.src}
@@ -152,6 +177,9 @@ const Page: React.FC = () => {
             />
           ))}
       </div>
+      {modalState && (
+        <WarningModal handleModalStateChange={handleModalStateChange} />
+      )}
     </div>
   );
 };

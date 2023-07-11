@@ -1,23 +1,36 @@
 import Image from "next/image";
 import React from "react";
 import logo from "../assets/images/logoquiqup.png";
+import { motion } from "framer-motion";
 
 interface Props {
   cardImage: string;
   handleCardClick: (card: any) => void;
   flipped: boolean;
+  index: number;
 }
 
 export const Card: React.FC<Props> = ({
   cardImage,
   handleCardClick,
   flipped,
+  index,
 }) => {
   return (
-    <div className="flex flex-col items-center justify-center shadow-xl rounded-md relative">
+    <motion.div
+      initial={{ x: "-100vw" }}
+      animate={{ x: 0 }}
+      transition={{
+        duration: 0.2,
+        delay: 0.2 * index,
+        type: "spring",
+        stiffness: 50,
+      }}
+      className="flex flex-col items-center justify-center shadow-xl rounded-md relative"
+    >
       <div
-        className={`w-full h-44 flex justify-center items-center bg-primary rounded-md shadow-xl absolute ${
-          flipped ? "flipped" : "not-flipped"
+        className={`w-full h-40 flex justify-center items-center bg-secondary rounded-md shadow-xl absolute ${
+          !flipped ? "flipped" : "not-flipped"
         }`}
       >
         <Image
@@ -32,7 +45,9 @@ export const Card: React.FC<Props> = ({
 
       <div
         onClick={handleCardClick}
-        className={`w-full h-44 flex justify-center items-center bg-primary rounded-md shadow-xl`}
+        className={`w-full h-40 flex justify-center items-center bg-primary rounded-md shadow-xl cursor-pointer ${
+          flipped ? "flipped-back" : "not-flipped-back"
+        }`}
       >
         <Image
           src={logo}
@@ -43,6 +58,6 @@ export const Card: React.FC<Props> = ({
           alt={""}
         />
       </div>
-    </div>
+    </motion.div>
   );
 };

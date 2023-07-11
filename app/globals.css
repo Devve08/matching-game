@@ -15,9 +15,27 @@
 
 
 .not-flipped{
-  transform: rotateY(90deg);
+  transition: all ease-in 0.2s;
+  transition-delay: 0s;
 }
 
 .flipped{
-  transform: rotate(0);
+  transform: rotateY(90deg);
+  transition-delay: 0s;
+}
+
+.not-flipped-back{
+  transition: all ease-in 0.2s;
+  transition-delay: 0s;
+}
+
+.not-flipped-back:hover{
+  scale: 1.05;
+  -ms-transform-origin-x: 0;
+  opacity: 0.9;
+}
+
+.flipped-back{
+  transform: rotateY(90deg);
+  transition-delay: 0s;
 }
