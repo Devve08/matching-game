@@ -12,3 +12,12 @@
 .tsukimi {
   font-family: "Tsukimi Rounded", sans-serif;
 }
+
+
+.not-flipped{
+  transform: rotateY(90deg);
+}
+
+.flipped{
+  transform: rotate(0);
+}
