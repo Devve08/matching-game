@@ -47,6 +47,28 @@ const Page: React.FC = () => {
     }
   }, []);
 
+  const startNewGameAction = () => {
+    if (gameState.turns > 0) {
+      handleModalStateChange();
+    } else {
+      prepareCards();
+    }
+  };
+
+  const resetGameState = () => {
+    console.log("hello");
+    setGameState({
+      cards: [],
+      turns: 0,
+      firstCard: {},
+      secondCard: {},
+      allCardsFlipped: true,
+      disableClick: false,
+    });
+    handleModalStateChange();
+    prepareCards();
+  };
+
   //Prepare cards for the start of the game
   const prepareCards = () => {
     const duplicates: Card[] | any = [...cards, ...cards];
@@ -58,16 +80,26 @@ const Page: React.FC = () => {
       ...card,
       id: Math.random(),
     }));
-    setGameState({ ...gameState, cards: cardsWithIds });
+    setGameState({
+      cards: cardsWithIds,
+      turns: 0,
+      firstCard: {},
+      secondCard: {},
+      disableClick: false,
+      allCardsFlipped: true,
+    });
     setTimeout(() => {
       setGameState({
-        ...gameState,
+        turns: 0,
+        firstCard: {},
+        secondCard: {},
+        disableClick: false,
         cards: cardsWithIds,
         allCardsFlipped: false,
       });
     }, 5000);
   };
-  console.log(gameState);
+
   // Handle logic when pressing the back of the card
   const handleCardClickAction = (card: Card) => {
     if (gameState.disableClick) {
@@ -149,6 +181,7 @@ const Page: React.FC = () => {
     );
   };
 
+  console.log(gameState);
   return (
     <div className="min-h-screen w-full bg-gray-200">
       <Header onLogout={handleLogoutAction} username={user} />
@@ -158,7 +191,7 @@ const Page: React.FC = () => {
           Game Of Match
         </span>
         <button
-          onClick={prepareCards}
+          onClick={startNewGameAction}
           className="  text-primary text-sm font-semibold border-2 bg-yellowish border-primary rounded py-1 px-4 font"
         >
           New Game
@@ -178,7 +211,10 @@ const Page: React.FC = () => {
           ))}
       </div>
       {modalState && (
-        <WarningModal handleModalStateChange={handleModalStateChange} />
+        <WarningModal
+          handleModalStateChange={handleModalStateChange}
+          confirm={resetGameState}
+        />
       )}
     </div>
   );

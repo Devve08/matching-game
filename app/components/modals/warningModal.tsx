@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 
 interface Props {
   handleModalStateChange: any;
+  confirm: any;
 }
 
 const backdrop = {
@@ -35,42 +36,10 @@ const modal = {
   },
 };
 
-const rightMotion = {
-  rest: {
-    x: 0,
-    opacity: 0,
-    transition: {
-      duration: 0.4,
-      type: "tween",
-      ease: "easeOut",
-    },
-  },
-  hover: {
-    x: 5,
-    opacity: 1,
-    transition: {
-      duration: 0.4,
-      type: "tween",
-      ease: "easeIn",
-    },
-  },
-};
-
-const leftMotion = {
-  rest: { x: 5, ease: "easeOut", duration: 0.4, type: "tween" },
-  hover: {
-    x: 0,
-    transition: {
-      duration: 0.4,
-      type: "tween",
-      ease: "easeIn",
-    },
-  },
-};
-
-export const WarningModal: React.FC<Props> = ({ handleModalStateChange }) => {
-  
-
+export const WarningModal: React.FC<Props> = ({
+  handleModalStateChange,
+  confirm,
+}) => {
   return (
     <AnimatePresence mode="wait">
       <motion.div
@@ -83,7 +52,28 @@ export const WarningModal: React.FC<Props> = ({ handleModalStateChange }) => {
           variants={modal}
           className="shadow-md relative bg-primary sm:w-2/5 p-4 rounded-md h-2/5 flex items-center gap-7  justify-center flex-col "
         >
-         
+          <div className="font-light text-md text-yellowish text-center">
+            Sure you want to start a new game? You will lose your current
+            progress!
+          </div>
+          <div className="flex items-center gap-5 w-full mx-auto justify-center mt-10">
+            <motion.button
+              onClick={handleModalStateChange}
+              whileHover={{ scale: 1.05, originX: 0 }}
+              transition={{ duration: 0.3 }}
+              className="font-semibold text-sm tsukimi bg-secondary w-2/5 py-2 text-white rounded"
+            >
+              Continue
+            </motion.button>
+            <motion.button
+              onClick={confirm}
+              whileHover={{ scale: 1.05, originX: 0 }}
+              transition={{ duration: 0.3 }}
+              className="font-semibold text-sm tsukimi bg-secondary w-2/5 py-2 text-white rounded"
+            >
+              Yes
+            </motion.button>
+          </div>
         </motion.div>
       </motion.div>
     </AnimatePresence>
