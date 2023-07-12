@@ -8,7 +8,7 @@ export default function middleware(req: any) {
     if (url == "http://localhost:3000/home") {
       return NextResponse.redirect("http://localhost:3000/");
     }
-    if (url == "https://memory-game-blond-nine.vercel.app//home") {
+    if (url == "https://memory-game-blond-nine.vercel.app/home") {
       return NextResponse.redirect(
         "https://memory-game-blond-nine.vercel.app/"
       );
