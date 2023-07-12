@@ -44,7 +44,7 @@ export const WarningModal: React.FC<Props> = ({
       >
         <motion.div
           variants={modal}
-          className="shadow-md relative bg-primary sm:w-2/5 p-4 rounded-md h-2/5 flex items-center gap-7  justify-center flex-col "
+          className="shadow-md relative bg-primary w-4/5 sm:w-2/5 p-4 rounded-md h-2/5 flex items-center gap-7  justify-center flex-col "
         >
           <div className="font-bold text-lg text-yellowish text-center">
             Restart game ?
