@@ -9,7 +9,7 @@ import { useGlobalContext } from "./context/store";
 
 const Icon = {
   initial: {
-    y: "-100",
+    y: "-100vh",
   },
   animate: { y: 0, transition: { duration: 2, type: "spring", stiffness: 50 } },
 };

@@ -189,7 +189,7 @@ const Page: React.FC = () => {
     // Removing the logged in user from cookies and redirecting to login
     Cookies.remove("loggedInUser");
     setUser("");
-    resetGameState()
+    localStorage.removeItem("gameState");
     window.location.reload();
   };
 
