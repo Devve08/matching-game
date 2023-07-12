@@ -1,7 +1,6 @@
 import { NextResponse } from "next/dist/server/web/spec-extension/response";
 
 export default function middleware(req: any) {
-  console.log("middleware", req.url);
   let verify = req.cookies.get("loggedInUser");
   let url = req.url;
 
@@ -9,7 +8,7 @@ export default function middleware(req: any) {
     if (url == "http://localhost:3000/home") {
       return NextResponse.redirect("http://localhost:3000/");
     }
-    if (url == "http://localhost:3000/home") {
+    if (url == "https://memory-game-blond-nine.vercel.app//home") {
       return NextResponse.redirect(
         "https://memory-game-blond-nine.vercel.app/"
       );
