@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import { useGlobalContext } from "../context/store";
 import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
 import { Header } from "../components/header";
 import { cards } from "../custom/images/images";
 import { Card } from "../components/card";
@@ -38,7 +37,6 @@ const Page: React.FC = () => {
     allCardsFlipped: true,
     disableClick: false,
   });
-  const router = useRouter();
 
   // UseEffect for checking user
   useEffect(() => {
@@ -191,7 +189,8 @@ const Page: React.FC = () => {
     // Removing the logged in user from cookies and redirecting to login
     Cookies.remove("loggedInUser");
     setUser("");
-    router.push("/");
+    resetGameState()
+    window.location.reload();
   };
 
   const isCardFlipped = (card: Card) => {

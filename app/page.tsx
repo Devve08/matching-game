@@ -4,12 +4,12 @@ import { motion } from "framer-motion";
 import { AnimatedText } from "./components/animatedText";
 import logo from "./assets/images/logoquiqup.png";
 import { UseModal } from "./custom/hooks/useModal";
-import { LoginModal } from "./components/modals/loginModal";
+import LoginModal from "./components/modals/loginModal";
 import { useGlobalContext } from "./context/store";
 
 const Icon = {
   initial: {
-    y: "-100vh",
+    y: "-100",
   },
   animate: { y: 0, transition: { duration: 2, type: "spring", stiffness: 50 } },
 };
@@ -18,7 +18,6 @@ export default function Home() {
   const { handleModalStateChange, modalState } = UseModal();
   useGlobalContext();
 
-  
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-primary relative">
       <motion.div
@@ -31,8 +30,6 @@ export default function Home() {
       </motion.div>
       <div className="text-yellowish">
         <motion.div
-          initial={{ y: "-vh" }}
-          animate={{ y: 0 }}
           transition={{
             duration: 1,
             type: "spring",
@@ -58,10 +55,7 @@ export default function Home() {
         Login
       </motion.div>
       {modalState && (
-        <LoginModal
-          
-          handleModalStateChange={handleModalStateChange}
-        />
+        <LoginModal handleModalStateChange={handleModalStateChange} />
       )}
     </main>
   );

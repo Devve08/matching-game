@@ -6,7 +6,6 @@ import Image from "next/image";
 import { useState } from "react";
 import { useGlobalContext } from "@/app/context/store";
 import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
 
 interface Props {
   handleModalStateChange: any;
@@ -68,11 +67,10 @@ const leftMotion = {
   },
 };
 
-export const LoginModal: React.FC<Props> = ({ handleModalStateChange }) => {
+const LoginModal: React.FC<Props> = ({ handleModalStateChange }) => {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [userName, setUserName] = useState<string>("");
   const { setUser } = useGlobalContext();
-  const router = useRouter()
 
   const handleTextChange = (text: string) => {
     setUserName(text);
@@ -88,7 +86,7 @@ export const LoginModal: React.FC<Props> = ({ handleModalStateChange }) => {
     } else {
       setUser(userName);
       Cookies.set("loggedInUser", userName);
-      router.push("/home")
+      window.location.reload();
     }
   };
   return (
@@ -108,13 +106,14 @@ export const LoginModal: React.FC<Props> = ({ handleModalStateChange }) => {
           </div>
           <div className="w-full flex flex-col items-center justify-center gap-2 px-4">
             <input
+             data-testid="logininput"
               onChange={e => handleTextChange(e.target.value)}
               className="outline-none p-2 px-4 rounded tsukimi font-bold text-primary w-full md:w-3/4"
               type="text"
               placeholder="Enter you name"
             />
             {errorMessage && (
-              <div className="text-red-500 text-sm">{errorMessage}</div>
+              <div data-testid="errormessage" className="text-red-500 text-sm">{errorMessage}</div>
             )}
           </div>
 
@@ -124,6 +123,7 @@ export const LoginModal: React.FC<Props> = ({ handleModalStateChange }) => {
             animate="rest"
             className="cursor-pointer flex flex-row items-center gap-2 "
             onClick={handleLoginAction}
+            data-testid="loginbtn"
           >
             <motion.span
               variants={leftMotion}
@@ -147,3 +147,5 @@ export const LoginModal: React.FC<Props> = ({ handleModalStateChange }) => {
     </AnimatePresence>
   );
 };
+
+export default LoginModal;

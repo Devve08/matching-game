@@ -34,6 +34,7 @@ export const Card: React.FC<Props> = ({
         }`}
       >
         <Image
+          data-testid="frontimage"
           src={cardImage}
           width="0"
           height="0"
@@ -50,6 +51,7 @@ export const Card: React.FC<Props> = ({
         }`}
       >
         <Image
+          data-testid="backimage"
           src={logo}
           width="0"
           height="0"
