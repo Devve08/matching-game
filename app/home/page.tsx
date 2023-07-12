@@ -210,7 +210,7 @@ const Page: React.FC = () => {
         gameState={gameState}
         startNewGameAction={startNewGameAction}
       />
-      <div className="grid grid-cols-2 md:grid-cols-4 m-auto w-full md:w-3/4 p-2 sm:p-10 gap-4">
+      <div className="grid grid-cols-4 md:grid-cols-4 m-auto w-full md:w-3/4 p-2 sm:p-10 gap-2 sm:gap-4">
         {gameState.cards?.length > 0 &&
           gameState.cards.map((card: Card, index: number) => (
             <Card

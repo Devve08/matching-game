@@ -29,7 +29,7 @@ export const Card: React.FC<Props> = ({
       className="flex flex-col items-center justify-center shadow-xl rounded-md relative"
     >
       <div
-        className={`w-full h-40 flex justify-center items-center bg-secondary rounded-md shadow-xl absolute ${
+        className={`w-full h-24  sm:h-40 flex justify-center items-center bg-secondary rounded-md shadow-xl absolute ${
           !flipped ? "flipped" : "not-flipped"
         }`}
       >
@@ -39,14 +39,14 @@ export const Card: React.FC<Props> = ({
           width="0"
           height="0"
           sizes="100vw"
-          className="w-2/4 h-auto"
+          className="w-3/5 sm:w-2/4 h-auto"
           alt={""}
         />
       </div>
 
       <div
         onClick={handleCardClick}
-        className={`w-full h-40 flex justify-center items-center bg-primary rounded-md shadow-xl cursor-pointer ${
+        className={`w-full h-24  sm:h-40 flex justify-center items-center bg-primary rounded-md shadow-xl cursor-pointer ${
           flipped ? "flipped-back" : "not-flipped-back"
         }`}
       >
@@ -56,7 +56,7 @@ export const Card: React.FC<Props> = ({
           width="0"
           height="0"
           sizes="100vw"
-          className="w-2/4 h-auto"
+          className="w-3/5 sm:w-2/4 h-auto"
           alt={""}
         />
       </div>

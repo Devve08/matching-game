@@ -14,7 +14,7 @@ export const HomeTitleSection: React.FC<Props> = ({
 }) => {
   return (
     <div className="p-4 w-full flex flex-col items-center justify-normal">
-      <span className="text-3xl tsukimi font-bold text-primary my-4">
+      <span className="text-xl md:text=3xl tsukimi font-bold text-primary my-4">
         <AnimatedText text="TEST-YOUR-MEMORY" />
       </span>
       <motion.button
